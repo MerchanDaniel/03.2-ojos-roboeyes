@@ -41,8 +41,7 @@ inline void updateEyes() {
 // TODO 3.3: Aplica la expresión pedida por tecla (1 a 7) y restablece la base limpia antes de calibrar.
 // Pregunta Guía: ¿Qué cambia en pantalla entre una tecla y otra si la base no se restablece?
 inline void setEyesMood(char key) {
-    roboEyes.setMood(DEFAULT); // Limpia la base antes de aplicar una nueva
-    
+    roboEyes.setMood(DEFAULT); // Limpia la base antes de aplicar una nueva    
     switch (key) {
         case '1':
             roboEyes.setMood(DEFAULT);
@@ -67,6 +66,7 @@ inline void setEyesMood(char key) {
             roboEyes.setMood(DEFAULT);
             break;
         default:
+            Serial.println(F("[EYES] Expresión no válida"));
             break;
     }
 }
