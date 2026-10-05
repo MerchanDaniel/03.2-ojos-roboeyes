@@ -25,12 +25,12 @@ RoboEyes<Adafruit_SSD1306> roboEyes(display);
 inline void initEyes() {
     roboEyes.begin(OLED_WIDTH, OLED_HEIGHT, EYES_MAX_FPS);
     
-    // Configuración inicial de las expresiones
-    roboEyes.setAutoblinker(true, 3, 2); // Activa el auto-pestañeo   
+    // Configuración inicial de animaciones
+    roboEyes.setAutoblinker(true, 3, 2); // Auto-pestañeo
+    roboEyes.setIdleMode(true, 2, 2);    // Movimiento aleatorio en reposo (idle)
     
     Serial.println(F("[EYES] RoboEyes inicializado correctamente"));
 }
-
 
 // TODO 3.2: Avanza la animación un paso sin bloquear; nunca envuelvas este paso en borrado/presentación ni en esperas.
 // Pregunta Guía: ¿Quién es dueño del borrado y la presentación del cuadro, tu código o la librería?
@@ -41,8 +41,34 @@ inline void updateEyes() {
 // TODO 3.3: Aplica la expresión pedida por tecla (1 a 7) y restablece la base limpia antes de calibrar.
 // Pregunta Guía: ¿Qué cambia en pantalla entre una tecla y otra si la base no se restablece?
 inline void setEyesMood(char key) {
-    roboEyes.setMood(DEFAULT);
-    Serial.println(F("[EYES] Expresión: NEUTRAL"));
+    roboEyes.setMood(DEFAULT); // Limpia la base antes de aplicar una nueva
+    
+    switch (key) {
+        case '1':
+            roboEyes.setMood(DEFAULT);
+            break;
+        case '2':
+            roboEyes.setMood(HAPPY);
+            break;
+        case '3':
+            roboEyes.setMood(ANGRY);
+            break;
+        case '4':
+            roboEyes.setMood(TIRED);
+            break;
+        case '5':
+            roboEyes.setMood(TIRED);
+            roboEyes.blink();
+            break;
+        case '6':
+            roboEyes.setMood(ANGRY);
+            break;
+        case '7':
+            roboEyes.setMood(DEFAULT);
+            break;
+        default:
+            break;
+    }
 }
 
 inline void setEyeExpressionHappy() {
@@ -51,7 +77,7 @@ inline void setEyeExpressionHappy() {
 }
 
 inline void setEyeExpressionSad() {
-    roboEyes.setMood(SAD);
+    roboEyes.setMood(TIRED);
     Serial.println(F("[EYES] Expresión: TRISTE"));
 }
 
@@ -59,6 +85,5 @@ inline void setEyeExpressionAngry() {
     roboEyes.setMood(ANGRY);
     Serial.println(F("[EYES] Expresión: ENOJADO"));
 }
-
 
 #endif
